@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import axios from 'axios';
+import { API_ENDPOINTS, API_BASE_URL_WITH_PREFIX } from '../constants/api';
 
 const MovieContext = createContext();
 
@@ -59,7 +60,7 @@ export const MovieProvider = ({ children }) => {
     setError(null);
     
     try {
-      const response = await axios.get(`http://localhost:3001/movies?page=${page}&limit=${limit}`);
+      const response = await axios.get(`${API_ENDPOINTS.MOVIES.BASE}?page=${page}&limit=${limit}`);
       const { movies: moviesData, total, totalPages } = response.data;
       
       setMovies(moviesData);
@@ -121,7 +122,7 @@ export const MovieProvider = ({ children }) => {
         formData.append('poster', movieData.poster);
       }
 
-      const response = await axios.post('http://localhost:3001/movies', formData, {
+      const response = await axios.post(API_ENDPOINTS.MOVIES.BASE, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -166,7 +167,7 @@ export const MovieProvider = ({ children }) => {
         formData.append('poster', movieData.poster);
       }
 
-      const response = await axios.patch(`http://localhost:3001/movies/${id}`, formData, {
+      const response = await axios.patch(API_ENDPOINTS.MOVIES.BY_ID(id), formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -191,7 +192,7 @@ export const MovieProvider = ({ children }) => {
     setError(null);
     
     try {
-      await axios.delete(`http://localhost:3001/movies/${id}`);
+      await axios.delete(API_ENDPOINTS.MOVIES.BY_ID(id));
       
       // Refresh the movies list
       await fetchMovies(pagination.currentPage, pagination.limit);
@@ -209,7 +210,7 @@ export const MovieProvider = ({ children }) => {
 
   const getMovie = async (id) => {
     try {
-      const response = await axios.get(`http://localhost:3001/movies/${id}`);
+      const response = await axios.get(API_ENDPOINTS.MOVIES.BY_ID(id));
       return { success: true, movie: response.data };
     } catch (error) {
       console.error('Failed to fetch movie:', error);

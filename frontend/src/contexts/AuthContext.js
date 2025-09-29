@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../constants/api';
 
 const AuthContext = createContext();
 
@@ -31,7 +32,7 @@ export const AuthProvider = ({ children }) => {
       if (token) {
         try {
           // Verify token with backend
-          const response = await axios.get('http://localhost:3001/auth/verify', {
+          const response = await axios.get(API_ENDPOINTS.AUTH.VERIFY, {
             headers: { Authorization: `Bearer ${token}` }
           });
           setUser(response.data.user);
@@ -48,7 +49,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post('http://localhost:3001/auth/login', {
+      const response = await axios.post(API_ENDPOINTS.AUTH.LOGIN, {
         email,
         password,
       });

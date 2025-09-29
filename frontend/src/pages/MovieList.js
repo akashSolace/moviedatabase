@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useMovies } from '../contexts/MovieContext';
 import WavePattern from '../components/WavePattern';
 import SearchAndFilter from '../components/SearchAndFilter';
+import { API_BASE_URL_WITH_PREFIX } from '../constants/api';
 
 const MovieList = () => {
   const navigate = useNavigate();
@@ -72,7 +73,7 @@ const MovieList = () => {
     // Check if movie has a real poster image
     const hasPoster = movie.poster && movie.poster.trim() !== '';
     const posterUrl = hasPoster 
-      ? (movie.poster.startsWith('http') ? movie.poster : `http://localhost:3001${movie.poster}`)
+      ? (movie.poster.startsWith('http') ? movie.poster : `${API_BASE_URL_WITH_PREFIX}${movie.poster}`)
       : null;
 
     return (

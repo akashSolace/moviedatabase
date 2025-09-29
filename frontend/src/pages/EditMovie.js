@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMovies } from '../contexts/MovieContext';
 import WavePattern from '../components/WavePattern';
+import { API_BASE_URL_WITH_PREFIX } from '../constants/api';
 
 const EditMovie = () => {
   const navigate = useNavigate();
@@ -265,7 +266,7 @@ const EditMovie = () => {
               {(formData.poster || originalPoster) && (
                 <div className="current-image-preview">
                   <img
-                    src={formData.poster ? URL.createObjectURL(formData.poster) : (originalPoster.startsWith('http') ? originalPoster : `http://localhost:3001${originalPoster}`)}
+                    src={formData.poster ? URL.createObjectURL(formData.poster) : (originalPoster.startsWith('http') ? originalPoster : `${API_BASE_URL_WITH_PREFIX}${originalPoster}`)}
                     alt="Current movie poster"
                     className="preview-image"
                   />

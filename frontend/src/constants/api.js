@@ -1,14 +1,19 @@
-export const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+// API Configuration from environment variables
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+const API_PREFIX = process.env.REACT_APP_API_PREFIX || '';
+
+// Construct the full API base URL with prefix
+export const API_BASE_URL_WITH_PREFIX = `${API_BASE_URL}${API_PREFIX}`;
 
 export const API_ENDPOINTS = {
   AUTH: {
-    LOGIN: `${API_BASE_URL}/auth/login`,
-    REGISTER: `${API_BASE_URL}/auth/register`,
-    VERIFY: `${API_BASE_URL}/auth/verify`,
+    LOGIN: `${API_BASE_URL_WITH_PREFIX}/auth/login`,
+    REGISTER: `${API_BASE_URL_WITH_PREFIX}/auth/register`,
+    VERIFY: `${API_BASE_URL_WITH_PREFIX}/auth/verify`,
   },
   MOVIES: {
-    BASE: `${API_BASE_URL}/movies`,
-    BY_ID: (id) => `${API_BASE_URL}/movies/${id}`,
+    BASE: `${API_BASE_URL_WITH_PREFIX}/movies`,
+    BY_ID: (id) => `${API_BASE_URL_WITH_PREFIX}/movies/${id}`,
   },
 };
 
