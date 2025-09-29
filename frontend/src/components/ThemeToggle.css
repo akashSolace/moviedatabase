@@ -1,0 +1,147 @@
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  position: relative;
+  outline: none;
+}
+
+.theme-toggle:focus {
+  box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.3);
+}
+
+.theme-toggle-track {
+  width: 48px;
+  height: 24px;
+  background-color: var(--input-border);
+  border-radius: 12px;
+  position: relative;
+  transition: background-color 0.3s ease;
+  border: 1px solid var(--border-color);
+}
+
+.theme-toggle-thumb {
+  width: 20px;
+  height: 20px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  position: absolute;
+  top: 1px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.theme-toggle-thumb.light {
+  left: 1px;
+  background-color: #fbbf24;
+}
+
+.theme-toggle-thumb.dark {
+  left: 25px;
+  background-color: var(--primary-color);
+}
+
+.theme-icon {
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.theme-icon svg {
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover .theme-icon svg {
+  transform: scale(1.1);
+}
+
+/* Compact version for smaller spaces */
+.theme-toggle.compact .theme-toggle-track {
+  width: 40px;
+  height: 20px;
+}
+
+.theme-toggle.compact .theme-toggle-thumb {
+  width: 16px;
+  height: 16px;
+}
+
+.theme-toggle.compact .theme-toggle-thumb.light {
+  left: 1px;
+}
+
+.theme-toggle.compact .theme-toggle-thumb.dark {
+  left: 21px;
+}
+
+.theme-toggle.compact .theme-icon svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* Large version for prominent placement */
+.theme-toggle.large .theme-toggle-track {
+  width: 56px;
+  height: 28px;
+}
+
+.theme-toggle.large .theme-toggle-thumb {
+  width: 24px;
+  height: 24px;
+}
+
+.theme-toggle.large .theme-toggle-thumb.light {
+  left: 1px;
+}
+
+.theme-toggle.large .theme-toggle-thumb.dark {
+  left: 29px;
+}
+
+.theme-toggle.large .theme-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Animation for smooth theme transitions */
+.theme-toggle-track {
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.theme-toggle-thumb {
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+              background-color 0.3s ease,
+              transform 0.3s ease;
+}
+
+.theme-toggle:hover .theme-toggle-thumb {
+  transform: scale(1.05);
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle-track,
+  .theme-toggle-thumb,
+  .theme-icon svg {
+    transition: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .theme-toggle-track {
+    border-width: 2px;
+  }
+  
+  .theme-toggle-thumb {
+    box-shadow: 0 0 0 2px var(--text-primary);
+  }
+}

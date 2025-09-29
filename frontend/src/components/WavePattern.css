@@ -1,0 +1,92 @@
+/* WavePattern Component Styles - Figma Design Match */
+
+.wave-pattern {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+  z-index: 1;
+  background-color: #1a3a3a;
+  margin: 0;
+  padding: 0;
+}
+
+.wave-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.wave-path {
+  transition: all 0.3s ease-in-out;
+  stroke: none;
+}
+
+/* Wave Animation - Subtle and Modern */
+.wave-path.animated {
+  animation: wave-motion 10s ease-in-out infinite;
+}
+
+.wave-path.wave-1.animated {
+  animation-delay: 0s;
+}
+
+.wave-path.wave-2.animated {
+  animation-delay: 3s;
+}
+
+@keyframes wave-motion {
+  0%, 100% {
+    transform: translateX(0) scaleY(1);
+  }
+  25% {
+    transform: translateX(-0.5%) scaleY(1.005);
+  }
+  50% {
+    transform: translateX(0) scaleY(1.01);
+  }
+  75% {
+    transform: translateX(0.5%) scaleY(1.005);
+  }
+}
+
+/* Clean wave rendering without extra overlays */
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .wave-pattern {
+    height: 120px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .wave-pattern {
+    height: 100px !important;
+  }
+}
+
+/* Accessibility - Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .wave-path.animated {
+    animation: none;
+  }
+  
+  .wave-path {
+    transition: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  /* Wave colors provide good contrast */
+}
+
+/* Dark mode support (if needed) */
+@media (prefers-color-scheme: dark) {
+  /* Wave colors are already optimized for dark backgrounds */
+}
