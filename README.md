@@ -263,8 +263,6 @@ If you encounter any issues or have questions, please create an issue in the rep
 ## Future Enhancements
 
 - [ ] Multi-language support (i18n)
-- [ ] Dark mode toggle
-- [ ] Search and filter functionality
 - [ ] Favorites/watchlist feature
 - [ ] Movie ratings and reviews
 - [ ] Social features (sharing, comments)
