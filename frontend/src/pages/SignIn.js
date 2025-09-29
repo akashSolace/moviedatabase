@@ -30,18 +30,26 @@ const SignIn = () => {
 
     if (!formData.email) {
       newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email is invalid';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
     }
 
     if (!formData.password) {
       newErrors.password = 'Password is required';
     } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
+      newErrors.password = 'Password must be at least 6 characters long';
+    } else if (formData.password.length > 128) {
+      newErrors.password = 'Password must be less than 128 characters';
     }
 
-    if (!isLogin && !formData.name) {
-      newErrors.name = 'Name is required';
+    if (!isLogin) {
+      if (!formData.name) {
+        newErrors.name = 'Name is required';
+      } else if (formData.name.trim().length < 2) {
+        newErrors.name = 'Name must be at least 2 characters long';
+      } else if (formData.name.trim().length > 50) {
+        newErrors.name = 'Name must be less than 50 characters';
+      }
     }
 
     setErrors(newErrors);

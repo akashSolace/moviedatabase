@@ -30,11 +30,13 @@ export const AuthProvider = ({ children }) => {
     const checkAuth = async () => {
       if (token) {
         try {
-          // You could make an API call here to verify the token
-          // For now, we'll just check if token exists
-          setUser({ token });
+          // Verify token with backend
+          const response = await axios.get('http://localhost:3001/auth/verify', {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          setUser(response.data.user);
         } catch (error) {
-          console.error('Auth check failed:', error);
+          // Token is invalid, clear it
           logout();
         }
       }

@@ -18,6 +18,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { MoviesService } from './movies.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
+import { AuthRequest } from '../auth/interfaces/auth-request.interface';
 
 @ApiTags('Movies')
 @ApiBearerAuth()
@@ -34,7 +35,7 @@ export class MoviesController {
   async create(
     @Body() createMovieDto: CreateMovieDto,
     @UploadedFile() file: Express.Multer.File,
-    @Request() req: any,
+    @Request() req: AuthRequest,
   ) {
     const posterUrl = file ? `/uploads/${file.filename}` : createMovieDto.poster;
     return this.moviesService.create({ ...createMovieDto, poster: posterUrl }, req.user.userId);
@@ -44,7 +45,7 @@ export class MoviesController {
   @ApiOperation({ summary: 'Get all movies with pagination' })
   @ApiResponse({ status: 200, description: 'Movies retrieved successfully' })
   async findAll(
-    @Request() req: any,
+    @Request() req: AuthRequest,
     @Query('page') page: string = '1',
     @Query('limit') limit: string = '10',
   ) {
@@ -57,7 +58,7 @@ export class MoviesController {
   @ApiOperation({ summary: 'Get a movie by ID' })
   @ApiResponse({ status: 200, description: 'Movie retrieved successfully' })
   @ApiResponse({ status: 404, description: 'Movie not found' })
-  async findOne(@Param('id') id: string, @Request() req: any) {
+  async findOne(@Param('id') id: string, @Request() req: AuthRequest) {
     return this.moviesService.findOne(id, req.user.userId);
   }
 
@@ -71,7 +72,7 @@ export class MoviesController {
     @Param('id') id: string,
     @Body() updateMovieDto: UpdateMovieDto,
     @UploadedFile() file: Express.Multer.File,
-    @Request() req: any,
+    @Request() req: AuthRequest,
   ) {
     const updateData = { ...updateMovieDto };
     if (file) {
@@ -84,7 +85,7 @@ export class MoviesController {
   @ApiOperation({ summary: 'Delete a movie' })
   @ApiResponse({ status: 200, description: 'Movie deleted successfully' })
   @ApiResponse({ status: 404, description: 'Movie not found' })
-  async remove(@Param('id') id: string, @Request() req: any) {
+  async remove(@Param('id') id: string, @Request() req: AuthRequest) {
     await this.moviesService.remove(id, req.user.userId);
     return { message: 'Movie deleted successfully' };
   }

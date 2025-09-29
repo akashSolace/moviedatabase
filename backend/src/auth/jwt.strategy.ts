@@ -1,35 +1,38 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { UsersService } from '../users/users.service';
+
+interface JwtPayload {
+  sub: string;
+  email: string;
+  iat?: number;
+  exp?: number;
+}
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(private usersService: UsersService) {
+  constructor(
+    private usersService: UsersService,
+    private configService: ConfigService,
+  ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: process.env.JWT_SECRET || 'your-secret-key',
+      secretOrKey: configService.get<string>('jwt.secret'),
     });
-    console.log('JWT Strategy initialized with secret:', process.env.JWT_SECRET ? 'Set' : 'Not set');
   }
 
-  async validate(payload: any) {
-    console.log('JWT Payload:', payload);
+  async validate(payload: JwtPayload) {
     try {
       const user = await this.usersService.findById(payload.sub);
-      console.log('Found user:', user ? 'Yes' : 'No');
       if (!user) {
-        console.log('User not found in database, but allowing access for testing');
-        // Temporarily allow access even if user not found in DB
-        return { userId: payload.sub, email: payload.email, user: null };
+        throw new UnauthorizedException('User not found');
       }
-      return { userId: payload.sub, email: payload.email, user };
+      return { userId: user._id.toString(), email: user.email };
     } catch (error) {
-      console.log('Database error during JWT validation:', error.message);
-      console.log('Allowing access despite database error for testing');
-      // Temporarily allow access even if database error
-      return { userId: payload.sub, email: payload.email, user: null };
+      throw new UnauthorizedException('Invalid token');
     }
   }
 }

@@ -265,7 +265,7 @@ If you encounter any issues or have questions, please create an issue in the rep
 - [ ] Multi-language support (i18n)
 - [ ] Favorites/watchlist feature
 - [ ] Movie ratings and reviews
-- [ ] Social features (sharing, comments)
+- [ ] Social features (sharing, comments)       
 - [ ] Advanced image processing
 - [ ] Unit and integration tests
 - [ ] Docker containerization

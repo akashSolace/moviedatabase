@@ -101,9 +101,19 @@ export const MovieProvider = ({ children }) => {
     setError(null);
     
     try {
+      // Validate file size (max 5MB)
+      if (movieData.poster instanceof File && movieData.poster.size > 5 * 1024 * 1024) {
+        throw new Error('File size must be less than 5MB');
+      }
+
+      // Validate file type
+      if (movieData.poster instanceof File && !movieData.poster.type.startsWith('image/')) {
+        throw new Error('Only image files are allowed');
+      }
+
       const formData = new FormData();
-      formData.append('title', movieData.title);
-      formData.append('publishingYear', movieData.publishingYear);
+      formData.append('title', movieData.title.trim());
+      formData.append('publishingYear', movieData.publishingYear.toString());
       
       if (movieData.poster instanceof File) {
         formData.append('poster', movieData.poster);
@@ -115,6 +125,7 @@ export const MovieProvider = ({ children }) => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        timeout: 30000, // 30 second timeout
       });
 
       // Refresh the movies list
@@ -123,7 +134,16 @@ export const MovieProvider = ({ children }) => {
       return { success: true, movie: response.data };
     } catch (error) {
       console.error('Failed to create movie:', error);
-      const errorMessage = error.response?.data?.message || 'Failed to create movie';
+      let errorMessage = 'Failed to create movie';
+      
+      if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      } else if (error.message) {
+        errorMessage = error.message;
+      } else if (error.code === 'ECONNABORTED') {
+        errorMessage = 'Request timeout. Please try again.';
+      }
+      
       setError(errorMessage);
       return { success: false, error: errorMessage };
     } finally {
